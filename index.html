@@ -3,24 +3,37 @@
 <head>
     <link rel="stylesheet" type="text/css" href="index.css">
 </head>
-<div id="app">
-    <div id="topbar">
-        Current Time: {{time}}
-    </div>
-    <div id="inner">
-        <div id="wrap">
-            <div v-if="notifications==''" class="full-screen-notifications">
-                There are no notifications available.
-            </div>
-            <div v-else>
-                <div v-if="notifications.type=='text'" class="full-screen-notifications">
-                    {{notifications.text}}
+<div id="mega">
+    <div id="ahtml"></div>
+    <div id="app">
+        <div id="topbar">
+            Current Time: {{time}}
+        </div>
+        <div id="inner">
+            <div id="wrap">
+                <div v-if="notifications==''" class="full-screen-notifications">
+                    There are no notifications available.
                 </div>
-                <div v-else-if="notifications.type=='video'" class="full-screen-notifications">
-                    Video
-                </div>
-                <div v-else-if="notifications.type=='error'" class="full-screen-notifications">
-                    {{notifications.text}}. We will retry in 5 seconds.
+                <div v-else>
+                    <div v-if="notifications.type=='text'" class="full-screen-notifications">
+                        {{notifications.text}}
+                    </div>
+                    <div v-else-if="notifications.type=='video'" class="full-screen-notifications">
+                        Video
+                    </div>
+                    <div v-else-if="notifications.type=='error'" class="full-screen-notifications">
+                        {{notifications.text}}. We will retry in 5 seconds.
+                    </div>
+                    <div v-else-if="notifications.type=='system'" class="full-screen-notifications">
+                        {{notifications.text}}
+                    </div>
+                    <div v-else-if="notifications.type=='rawhtml'">
+                        <div v-html="notifications.html">
+                        </div>
+                    </div>
+                    <!-- <div v-else-if="notifications.type=='advancedhtml'">
+
+                    </div> -->
                 </div>
                 <div v-else class="full-screen-notifications">
                     We got an invalid information.
@@ -29,6 +42,7 @@
         </div>
     </div>
 </div>
+<!-- </div> -->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="jquery.js"></script>
 <script src="index.js"></script>

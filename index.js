@@ -4,7 +4,10 @@ var serverAddress = "http://localhost:80/"
 app = new Vue({
     el: '#app',
     data: {
-        notifications: [],
+        notifications: {
+            'type':'system',
+            'text':'Initializing...'
+        },
         // time:String(time.getDate())+"/"+String(time.getMonth())+"/"+String(time.getFullYear())+' '+String(time.getHours())+':'+String(time.getMinutes())+':'+String(time.getSeconds())+'.'+String(time.getMilliseconds())
         time: new Date().format('dd/MM/yyyy hh:mm:ss')
     }
@@ -12,19 +15,32 @@ app = new Vue({
 
 function updateImmediately() {
     $.get(serverAddress + "fetchNow", (d) => {
+        app.notifications = d.notifications
         if (d.code == 0) {
             if (d.notifications) {
+                // if(d.type=="advancedhtml"){
+                //     $("#ahtml").html(d.html)
+                //     v=new Vue({
+                //         el:"#ahtml",
+                //         data:{
+
+                //         }
+                //     })
+                // }
+
+                if(d.type=='order'){
+                    eval(d.command)
+                }
+                
                 setTimeout(() => {
                     updateImmediately()
                 }, d.notifications.duration * 1000)
-                app.notifications = d.notifications
             } else {
                 app.notifications=''
                 setTimeout(()=>{
                     console.log('update')
                     updateImmediately()
                 },5000)
-    
             }
         } else {
             // console.log('err', d)
